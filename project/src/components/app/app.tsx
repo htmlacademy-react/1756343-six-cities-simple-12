@@ -1,9 +1,9 @@
-import Main from '../../pages/main/main';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
-import { AppRoutes } from '../../const';
 import Page404 from '../../pages/page404/page404';
+import { AppRoutes } from '../../const';
 
 type AppProps = {
   placesFound: number;
