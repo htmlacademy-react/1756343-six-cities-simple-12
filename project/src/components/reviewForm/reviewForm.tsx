@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Stars } from '../../const';
+import { RATING_STARS } from '../../const';
 import Star from '../star/star';
 
 const ReviewForm = (): JSX.Element => {
@@ -18,17 +18,15 @@ const ReviewForm = (): JSX.Element => {
     }
   };
 
-  const range = (n: number): number[] => (
-    new Array(n)
-      .fill(n + 1)
-      .map((el, i) => el - (i + 1))
-  );
-
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {range(Stars.Five).map((el, i) => (<Star key={el} star={el} setRating={handleChange} />))}
+        {
+          Array.from({length: RATING_STARS}, (_, i) => i + 1)
+            .reverse()
+            .map((el) => (<Star key={el} star={el} setRating={handleChange} />))
+        }
       </div>
       <textarea
         className="reviews__textarea form__textarea"
