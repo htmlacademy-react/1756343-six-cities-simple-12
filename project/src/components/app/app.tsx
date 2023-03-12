@@ -4,16 +4,18 @@ import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import Page404 from '../../pages/page404/page404';
 import { AppRoutes } from '../../const';
+import { Offers } from '../../types/offers';
 
 type AppProps = {
   placesFound: number;
+  offers: Offers;
 }
 
-const App = ({placesFound}: AppProps): JSX.Element => (
+const App = ({placesFound, offers}: AppProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoutes.Main}>
-        <Route index element={<Main placesFound={placesFound} />} />
+        <Route index element={<Main placesFound={placesFound} offers={offers} />} />
         <Route path={AppRoutes.Login} element={<Login />} />
         <Route path={AppRoutes.Room} element={<Room />} />
       </Route>
