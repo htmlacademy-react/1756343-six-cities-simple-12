@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { Offers } from '../../types/offers';
+import { Offer, Offers } from '../../types/offers';
 import Card from '../card/card';
 
 type CardsListProp = {
     offers: Offers;
+    onHover: (offer: Offer) => void;
 }
 
-const CardsList = ({offers}: CardsListProp): JSX.Element => {
-  const [activeCard, setActivaCard] = useState<null|number>(null);
+const CardsList = ({offers, onHover}: CardsListProp): JSX.Element => {
+  const [activeCard, setActivaCard] = useState<null|Offer>(null);
 
-  const handleActiveCard = (id: number): void => {
-    if (id !== activeCard) {
-      setActivaCard(id);
+  const handleActiveCard = (offer: Offer): void => {
+    if (!activeCard || offer.id !== activeCard.id) {
+      setActivaCard(offer);
+      onHover(offer);
     }
   };
 

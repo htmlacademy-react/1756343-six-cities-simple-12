@@ -1,12 +1,12 @@
 export const offers = [
   {
     city: {
-      name: 'Paris',
-      location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
-        zoom: 13
-      }
+      'location': {
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     previewImage: 'https://12.react.pages.academy/static/hotel/3.jpg',
     images: [
@@ -43,20 +43,20 @@ export const offers = [
     },
     description: 'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',
     location: {
-      latitude: 48.862610000000004,
-      longitude: 2.369499,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     id: 1
   },
   {
     city: {
-      name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974,
-        zoom: 13
-      }
+      'location': {
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     previewImage: 'https://12.react.pages.academy/static/hotel/18.jpg',
     images: [
@@ -102,20 +102,20 @@ export const offers = [
     },
     description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
     location: {
-      latitude: 50.945361,
-      longitude: 6.962974,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     id: 2
   },
   {
     city: {
-      name: 'Dusseldorf',
-      location: {
-        latitude: 51.225402,
-        longitude: 6.776314,
-        zoom: 13
-      }
+      'location': {
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     previewImage: 'https://12.react.pages.academy/static/hotel/12.jpg',
     images: [
@@ -160,20 +160,20 @@ export const offers = [
     },
     description: 'I rent out a very sunny and bright apartment only 7 minutes walking distance to the metro station. The apartment has a spacious living room with a kitchen, one bedroom and a bathroom with mit bath. A terrace can be used in summer.',
     location: {
-      latitude: 51.217402,
-      longitude: 6.7693140000000005,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16
     },
     id: 3
   },
   {
     city: {
-      name: 'Brussels',
-      location: {
-        latitude: 50.846557,
-        longitude: 4.351697,
-        zoom: 13
-      }
+      'location': {
+        'latitude': 52.370216,
+        'longitude': 4.895168,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     previewImage: 'https://12.react.pages.academy/static/hotel/19.jpg',
     images: [
@@ -216,8 +216,8 @@ export const offers = [
     },
     description: 'Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.',
     location: {
-      latitude: 50.865556999999995,
-      longitude: 4.371696999999999,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 16
     },
     id: 4

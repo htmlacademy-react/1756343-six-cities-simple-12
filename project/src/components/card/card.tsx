@@ -5,7 +5,7 @@ import { Offer } from '../../types/offers';
 
 type CardProp = {
   offer: Offer;
-  handleActiveCard: (id: number) => void;
+  handleActiveCard: (offer: Offer) => void;
 }
 
 const Card = ({offer, handleActiveCard}: CardProp): JSX.Element => {
@@ -14,7 +14,7 @@ const Card = ({offer, handleActiveCard}: CardProp): JSX.Element => {
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={() => handleActiveCard(id)}
+      onMouseEnter={() => handleActiveCard(offer)}
     >
       {isPremium && (
         <div className="place-card__mark">
