@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
@@ -7,25 +6,25 @@ import { Offer, Offers } from '../../types/offers';
 
 type MapProp = {
   offers: Offers;
-  selectedOffer: Offer | {};
+  selectedOffer: Offer | object;
 }
+
+const defaultCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const currentCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const Map = ({offers, selectedOffer}: MapProp):JSX.Element => {
   const mapRef = useRef(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
-
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_CURRENT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
@@ -66,7 +65,6 @@ const Map = ({offers, selectedOffer}: MapProp):JSX.Element => {
           .addTo(map);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, offers, selectedOffer]);
 
   return (
