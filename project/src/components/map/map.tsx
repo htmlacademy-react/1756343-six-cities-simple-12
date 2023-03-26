@@ -7,6 +7,7 @@ import { Offer, Offers } from '../../types/offers';
 type MapProp = {
   offers: Offers;
   selectedOffer: Offer | object;
+  cn: string;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -21,7 +22,7 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const Map = ({offers, selectedOffer}: MapProp):JSX.Element => {
+const Map = ({offers, selectedOffer, cn}: MapProp):JSX.Element => {
   const mapRef = useRef(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
@@ -68,7 +69,7 @@ const Map = ({offers, selectedOffer}: MapProp):JSX.Element => {
   }, [map, offers, selectedOffer]);
 
   return (
-    <section className="cities__map map"
+    <section className={`${cn} map`}
       ref={mapRef}
     >
     </section>

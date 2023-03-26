@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { useState } from 'react';
 import CardsList from '../../components/cardsList/cardsList';
 import Map from '../../components/map/map';
-import { Offer, Offers } from '../../types/offers';
+import useSelectedOffer from '../../hooks/useSelectedOffer';
+import { Offers } from '../../types/offers';
 
 type MainProps = {
     placesFound: number;
@@ -11,11 +11,7 @@ type MainProps = {
 }
 
 const Main = ({placesFound, offers}: MainProps): JSX.Element => {
-  const [selectedOffer, setSelectedOffer] = useState({});
-
-  const onHover = (offer: Offer) => {
-    setSelectedOffer(offer);
-  };
+  const { selectedOffer, onHover } = useSelectedOffer();
 
   return (
     <>
@@ -107,10 +103,10 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
                   <li className="places__option">Top rated first</li>
                 </ul>
               </form>
-              <CardsList offers={offers} onHover={onHover} />
+              <CardsList offers={offers} onHover={onHover} cn={'cities__places-list places__list tabs__content'} />
             </section>
             <div className="cities__right-section">
-              <Map offers={offers} selectedOffer={selectedOffer} />
+              <Map offers={offers} selectedOffer={selectedOffer} cn={'cities__map'} />
             </div>
           </div>
         </div>

@@ -5,9 +5,10 @@ import Card from '../card/card';
 type CardsListProp = {
     offers: Offers;
     onHover: (offer: Offer) => void;
+    cn: string;
 }
 
-const CardsList = ({offers, onHover}: CardsListProp): JSX.Element => {
+const CardsList = ({offers, onHover, cn}: CardsListProp): JSX.Element => {
   const [activeCard, setActivaCard] = useState<null|Offer>(null);
 
   const handleActiveCard = (offer: Offer): void => {
@@ -18,7 +19,7 @@ const CardsList = ({offers, onHover}: CardsListProp): JSX.Element => {
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={cn}>
       {offers.map((offer) => <Card key={offer.id} offer={offer} handleActiveCard={handleActiveCard} />)}
     </div>
   );
