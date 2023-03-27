@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { Link } from 'react-router-dom';
+import { RATING_STARS } from '../../const';
 import { Offer } from '../../types/offers';
 
 type CardProp = {
@@ -35,7 +36,7 @@ const Card = ({offer, handleActiveCard}: CardProp): JSX.Element => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating / 5 * 100}%`}}></span>
+            <span style={{width: `${rating / RATING_STARS * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
