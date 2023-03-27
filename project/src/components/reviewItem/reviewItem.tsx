@@ -1,4 +1,5 @@
-import { monthNames } from '../../const';
+import { RATING_STARS } from '../../const';
+import { formatDate, getFullMonthAndYear } from '../../helpers/formatDate';
 import { Review } from '../../types/reviews';
 
 type ReviewProp = {
@@ -7,22 +8,6 @@ type ReviewProp = {
 
 const ReviewItem = ({review}: ReviewProp):JSX.Element => {
   const { comment, date, rating, user } = review;
-  const d = new Date(date),
-    year = d.getFullYear(),
-    month = d.getMonth();
-
-  const formatDate = ():string => {
-    let mon = `${ d.getMonth() + 1}`,
-      day = `${ d.getDate()}`;
-
-    if (mon.length < 2) {
-      mon = `0${ mon}`;
-    }
-    if (day.length < 2) {
-      day = `0${ day}`;
-    }
-    return [year, mon, day].join('-');
-  };
 
   return (
     <li className="reviews__item">
@@ -35,12 +20,12 @@ const ReviewItem = ({review}: ReviewProp):JSX.Element => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${rating / 5 * 100}%`}}></span>
+            <span style={{width: `${rating / RATING_STARS * 100}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={formatDate()}>{`${monthNames[month]} ${year}`}</time>
+        <time className="reviews__time" dateTime={formatDate(date)}>{getFullMonthAndYear(date)}</time>
       </div>
     </li>
   );

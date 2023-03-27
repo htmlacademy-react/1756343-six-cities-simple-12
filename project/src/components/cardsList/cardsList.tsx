@@ -4,7 +4,7 @@ import Card from '../card/card';
 
 type CardsListProp = {
     offers: Offers;
-    onHover: (offer: Offer) => void;
+    onHover: (id: number) => void;
     cn: string;
 }
 
@@ -14,7 +14,7 @@ const CardsList = ({offers, onHover, cn}: CardsListProp): JSX.Element => {
   const handleActiveCard = (offer: Offer): void => {
     if (!activeCard || offer.id !== activeCard.id) {
       setActivaCard(offer);
-      onHover(offer);
+      onHover(offer.id);
     }
   };
 

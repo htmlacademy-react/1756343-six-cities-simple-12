@@ -2,7 +2,7 @@
 
 import CardsList from '../../components/cardsList/cardsList';
 import Map from '../../components/map/map';
-import useSelectedOffer from '../../hooks/useSelectedOffer';
+import useActiveOffer from '../../hooks/useActiveOffer';
 import { Offers } from '../../types/offers';
 
 type MainProps = {
@@ -11,7 +11,7 @@ type MainProps = {
 }
 
 const Main = ({placesFound, offers}: MainProps): JSX.Element => {
-  const { selectedOffer, onHover } = useSelectedOffer();
+  const { activeOffer, setActive } = useActiveOffer();
 
   return (
     <>
@@ -103,10 +103,10 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
                   <li className="places__option">Top rated first</li>
                 </ul>
               </form>
-              <CardsList offers={offers} onHover={onHover} cn={'cities__places-list places__list tabs__content'} />
+              <CardsList offers={offers} onHover={setActive} cn={'cities__places-list places__list tabs__content'} />
             </section>
             <div className="cities__right-section">
-              <Map offers={offers} selectedOffer={selectedOffer} cn={'cities__map'} />
+              <Map offers={offers} activeOffer={activeOffer} cn={'cities__map'} />
             </div>
           </div>
         </div>

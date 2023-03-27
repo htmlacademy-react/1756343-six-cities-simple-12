@@ -2,11 +2,11 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { Offer, Offers } from '../../types/offers';
+import { Offers } from '../../types/offers';
 
 type MapProp = {
   offers: Offers;
-  selectedOffer: Offer | object;
+  activeOffer: number | null;
   cn: string;
 }
 
@@ -22,7 +22,7 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const Map = ({offers, selectedOffer, cn}: MapProp):JSX.Element => {
+const Map = ({offers, activeOffer, cn}: MapProp):JSX.Element => {
   const mapRef = useRef(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
@@ -59,14 +59,14 @@ const Map = ({offers, selectedOffer, cn}: MapProp):JSX.Element => {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: ('id' in selectedOffer && offer.id === selectedOffer.id)
+            icon: (activeOffer && offer.id === activeOffer)
               ? currentCustomIcon
               : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, activeOffer]);
 
   return (
     <section className={`${cn} map`}

@@ -4,14 +4,15 @@ import CardsList from '../../components/cardsList/cardsList';
 import Map from '../../components/map/map';
 import ReviewForm from '../../components/reviewForm/reviewForm';
 import ReviewsList from '../../components/reviewsList/reviewsList';
-import useSelectedOffer from '../../hooks/useSelectedOffer';
+import { RATING_STARS } from '../../const';
+import useActiveOffer from '../../hooks/useActiveOffer';
 import {offers} from '../../mocks/offers';
 import { reviews } from '../../mocks/reviews';
 import { Offer } from '../../types/offers';
 
 const Room = (): JSX.Element => {
   const {id} = useParams();
-  const { selectedOffer, onHover } = useSelectedOffer();
+  const { activeOffer, setActive } = useActiveOffer();
 
   const selectOffer = offers.find((offer) => offer.id === Number(id)) as Offer;
   const nearbyOffer = offers.filter((offer) => offer.id !== Number(id)) as Offer[];
@@ -72,7 +73,7 @@ const Room = (): JSX.Element => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${selectOffer.rating / 5 * 100}%`}}></span>
+                  <span style={{width: `${selectOffer.rating / RATING_STARS * 100}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{selectOffer.rating}</span>
@@ -125,12 +126,12 @@ const Room = (): JSX.Element => {
               </section>
             </div>
           </div>
-          <Map offers={nearbyOffer} selectedOffer={selectedOffer} cn={'property__map'} />
+          <Map offers={nearbyOffer} activeOffer={activeOffer} cn={'property__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers={nearbyOffer} onHover={onHover} cn={'near-places__list places__list'} />
+            <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />
           </section>
         </div>
       </main>
@@ -140,4 +141,3 @@ const Room = (): JSX.Element => {
 };
 
 export default Room;
-
