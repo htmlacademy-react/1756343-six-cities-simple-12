@@ -6,7 +6,7 @@ import ReviewForm from '../../components/reviewForm/reviewForm';
 import ReviewsList from '../../components/reviewsList/reviewsList';
 import { RATING_STARS } from '../../const';
 import useActiveOffer from '../../hooks/useActiveOffer';
-import {offers} from '../../mocks/offers';
+import {offersList} from '../../mocks/offers';
 import { reviews } from '../../mocks/reviews';
 import { Offer } from '../../types/offers';
 
@@ -14,8 +14,8 @@ const Room = (): JSX.Element => {
   const {id} = useParams();
   const { activeOffer, setActive } = useActiveOffer();
 
-  const selectOffer = offers.find((offer) => offer.id === Number(id)) as Offer;
-  const nearbyOffer = offers.filter((offer) => offer.id !== Number(id)) as Offer[];
+  const selectOffer = offersList.find((offer) => offer.id === Number(id)) as Offer;
+  const nearbyOffer = offersList.filter((offer) => offer.id !== Number(id)) as Offer[];
 
   return (
     <div className="page">
@@ -126,7 +126,7 @@ const Room = (): JSX.Element => {
               </section>
             </div>
           </div>
-          <Map offers={nearbyOffer} activeOffer={activeOffer} cn={'property__map'} />
+          <Map activeOffer={activeOffer} cn={'property__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
