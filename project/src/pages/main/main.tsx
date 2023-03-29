@@ -1,17 +1,32 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
+import { useEffect } from 'react';
 import CardsList from '../../components/cardsList/cardsList';
+import CitiesList from '../../components/citiesList/citiesList';
 import Map from '../../components/map/map';
+import { CITIES } from '../../const';
 import useActiveOffer from '../../hooks/useActiveOffer';
-import { Offers } from '../../types/offers';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { offersList } from '../../mocks/offers';
+import { citySelector, offersSelector } from '../../store/selectors';
+import { setCurrentCity, setOffers } from '../../store/sliceOffers';
 
-type MainProps = {
-    placesFound: number;
-    offers: Offers;
-}
-
-const Main = ({placesFound, offers}: MainProps): JSX.Element => {
+const Main = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const city = useAppSelector(citySelector);
+  const offers = useAppSelector(offersSelector);
   const { activeOffer, setActive } = useActiveOffer();
+
+  useEffect(() => {
+    const filteredOffersList = offersList.filter((offer) => offer.city.name === city.name);
+    dispatch(setOffers(filteredOffersList));
+  }, [city, dispatch]);
+
+  const handleChangeCity = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>):void => {
+    e.preventDefault();
+    const selectedCity = CITIES.find((c) => c.name === e.currentTarget.innerText);
+    if (selectedCity) {
+      dispatch(setCurrentCity(selectedCity));
+    }
+  };
 
   return (
     <>
@@ -23,7 +38,7 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <a className="header__logo-link header__logo-link--active" href='/'>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
@@ -36,7 +51,7 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
                   </div>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <a className="header__nav-link" href="/">
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>
@@ -49,45 +64,14 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList cities={CITIES} activeCity={city.name} handleChangeCity={handleChangeCity} />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesFound} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type">
@@ -106,7 +90,7 @@ const Main = ({placesFound, offers}: MainProps): JSX.Element => {
               <CardsList offers={offers} onHover={setActive} cn={'cities__places-list places__list tabs__content'} />
             </section>
             <div className="cities__right-section">
-              <Map offers={offers} activeOffer={activeOffer} cn={'cities__map'} />
+              <Map activeOffer={activeOffer} cn={'cities__map'} />
             </div>
           </div>
         </div>

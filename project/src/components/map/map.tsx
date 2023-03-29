@@ -2,10 +2,10 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { Offers } from '../../types/offers';
+import { useAppSelector } from '../../hooks/useRedux';
+import { citySelector, offersSelector } from '../../store/selectors';
 
 type MapProp = {
-  offers: Offers;
   activeOffer: number | null;
   cn: string;
 }
@@ -22,19 +22,21 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const Map = ({offers, activeOffer, cn}: MapProp):JSX.Element => {
+const Map = ({activeOffer, cn}: MapProp):JSX.Element => {
   const mapRef = useRef(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
+  const city = useAppSelector(citySelector);
+  const offers = useAppSelector(offersSelector);
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: offers[0].city.location.latitude,
-          lng: offers[0].city.location.longitude,
+          lat: city.location.latitude,
+          lng: city.location.longitude,
         },
-        zoom: offers[0].city.location.zoom,
+        zoom: city.location.zoom,
       });
 
       leaflet
@@ -48,8 +50,10 @@ const Map = ({offers, activeOffer, cn}: MapProp):JSX.Element => {
 
       setMap(instance);
       isRenderedRef.current = true;
+    } else if (map) {
+      map.panTo([city.location.latitude, city.location.longitude]);
     }
-  }, [mapRef, offers]);
+  }, [mapRef, offers, city, map]);
 
   useEffect(() => {
     if (map) {
