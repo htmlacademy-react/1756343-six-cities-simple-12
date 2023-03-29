@@ -18,7 +18,7 @@ export const sliceOffers = createSlice({
   name: 'sliceOffers',
   initialState,
   reducers: {
-    changeCity: (state, { payload }: PayloadAction<City>) => {
+    setCurrentCity: (state, { payload }: PayloadAction<City>) => {
       state.city = payload;
     },
 
@@ -28,4 +28,4 @@ export const sliceOffers = createSlice({
   },
 });
 
-export const { setOffers, changeCity } = sliceOffers.actions;
+export const { setOffers, setCurrentCity } = sliceOffers.actions;

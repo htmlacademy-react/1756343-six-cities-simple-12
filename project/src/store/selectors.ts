@@ -1,5 +1,4 @@
-import { City, Offers } from '../types/offers';
 import { RootState } from '../types/store';
 
-export const citySelector = (state: RootState): City => state.offers.city;
-export const offersSelector = (state: RootState): Offers => state.offers.offers;
+export const citySelector = (state: RootState) => state.offers.city;
+export const offersSelector = (state: RootState) => state.offers.offers;
