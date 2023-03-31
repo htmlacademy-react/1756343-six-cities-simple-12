@@ -7,11 +7,11 @@ export const AppRoutes = {
 
 export const RATING_STARS = 5;
 
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 
-export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const CITIES = [
   {
@@ -63,3 +63,10 @@ export const CITIES = [
     }
   },
 ];
+
+export const POPULAR = 'Popular';
+export const LOW_TO_HIGH = 'Price: low to high';
+export const HIGH_TO_LOW = 'Price: high to low';
+export const TOP_RATED = 'Top rated first';
+
+export const SORT_OPTIONS = [POPULAR, LOW_TO_HIGH, HIGH_TO_LOW, TOP_RATED];
