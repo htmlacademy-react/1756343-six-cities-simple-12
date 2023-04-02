@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { POPULAR, SORT_OPTIONS } from '../../const';
+import { Options } from '../../const';
 import { useAppSelector } from '../../hooks/useRedux';
 import { citySelector } from '../../store/selectors';
 
@@ -10,10 +10,10 @@ type SortOptionsProp = {
 const SortOptions = ({handleSorting}: SortOptionsProp): JSX.Element => {
   const city = useAppSelector(citySelector);
   const [isOpen, setIsOpen] = useState(false);
-  const [currentOption, setCurrentOption] = useState(POPULAR);
+  const [currentSort, setCurrentSort] = useState<string>(Options.POPULAR);
 
   useEffect(() => {
-    setCurrentOption(POPULAR);
+    setCurrentSort(Options.POPULAR);
     setIsOpen(false);
   }, [city]);
 
@@ -21,9 +21,9 @@ const SortOptions = ({handleSorting}: SortOptionsProp): JSX.Element => {
     setIsOpen(!isOpen);
   };
 
-  const handlerSetCurrentOption = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
-    if (e.currentTarget.innerText !== currentOption) {
-      setCurrentOption(e.currentTarget.innerText);
+  const handlerSetCurrentSort = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
+    if (e.currentTarget.innerText !== currentSort) {
+      setCurrentSort(e.currentTarget.innerText);
       handleSorting(e.currentTarget.innerText);
     }
     setIsOpen(!isOpen);
@@ -33,17 +33,17 @@ const SortOptions = ({handleSorting}: SortOptionsProp): JSX.Element => {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" onClick={handlerOpenOptions}>
-        {currentOption}
+        {currentSort}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
-        {SORT_OPTIONS.map((option) => (
+        {Object.values(Options).map((option) => (
           <li
-            className={`places__option ${option === currentOption ? 'places__option--active' : ''}`}
+            className={`places__option ${option === currentSort ? 'places__option--active' : ''}`}
             key={option}
-            onClick={(e) => handlerSetCurrentOption(e)}
+            onClick={(e) => handlerSetCurrentSort(e)}
           >
             {option}
           </li>

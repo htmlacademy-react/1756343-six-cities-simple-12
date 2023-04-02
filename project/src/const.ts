@@ -64,9 +64,9 @@ export const CITIES = [
   },
 ];
 
-export const POPULAR = 'Popular';
-export const LOW_TO_HIGH = 'Price: low to high';
-export const HIGH_TO_LOW = 'Price: high to low';
-export const TOP_RATED = 'Top rated first';
-
-export const SORT_OPTIONS = [POPULAR, LOW_TO_HIGH, HIGH_TO_LOW, TOP_RATED];
+export enum Options {
+  POPULAR = 'Popular',
+  LOW_TO_HIGH = 'Price: low to high',
+  HIGH_TO_LOW = 'Price: high to low',
+  TOP_RATED = 'Top rated first',
+}
