@@ -1,4 +1,4 @@
-import { monthNames } from '../const';
+import { MONTH_NAMES } from '../const';
 
 export const formatDate = (date: string):string => {
   const d = new Date(date),
@@ -19,7 +19,7 @@ export const formatDate = (date: string):string => {
 export const getFullMonthAndYear = (date: string):string => {
   const d = new Date(date),
     year = d.getFullYear(),
-    month = monthNames[d.getMonth()];
+    month = MONTH_NAMES[d.getMonth()];
 
   return `${month} ${year}`;
 };
