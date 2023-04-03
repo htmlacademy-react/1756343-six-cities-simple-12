@@ -3,13 +3,13 @@ import { Offers } from '../types/offers';
 
 export const sort = (option: string, offers: Offers): Offers => {
   switch(option) {
-    case Options.POPULAR:
+    case Options.Popular:
       return offers;
-    case Options.LOW_TO_HIGH:
+    case Options.PriceAsk:
       return [...offers].sort((offer, nextOffer) => offer.price - nextOffer.price);
-    case Options.HIGH_TO_LOW:
+    case Options.PriceDesc:
       return [...offers].sort((offer, nextOffer) => nextOffer.price - offer.price);
-    case Options.TOP_RATED:
+    case Options.TopRating:
       return [...offers].sort((offer, nextOffer) => nextOffer.rating - offer.rating);
     default:
       return offers;

@@ -10,10 +10,10 @@ type SortOptionsProp = {
 const SortOptions = ({handleSorting}: SortOptionsProp): JSX.Element => {
   const city = useAppSelector(citySelector);
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState<string>(Options.POPULAR);
+  const [currentSort, setCurrentSort] = useState<string>(Options.Popular);
 
   useEffect(() => {
-    setCurrentSort(Options.POPULAR);
+    setCurrentSort(Options.Popular);
     setIsOpen(false);
   }, [city]);
 

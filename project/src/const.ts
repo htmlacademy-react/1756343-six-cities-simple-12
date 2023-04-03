@@ -65,8 +65,8 @@ export const CITIES = [
 ];
 
 export enum Options {
-  POPULAR = 'Popular',
-  LOW_TO_HIGH = 'Price: low to high',
-  HIGH_TO_LOW = 'Price: high to low',
-  TOP_RATED = 'Top rated first',
+  Popular = 'Popular',
+  PriceAsk = 'Price: low to high',
+  PriceDesc = 'Price: high to low',
+  TopRating = 'Top rated first',
 }
