@@ -3,11 +3,13 @@ import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import { useAppSelector } from '../../hooks/useRedux';
-import { citySelector, offersSelector } from '../../store/selectors';
+import { citySelector } from '../../store/selectors';
+import { Offers } from '../../types/offers';
 
 type MapProp = {
   activeOffer: number | null;
   cn: string;
+  offers: Offers;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -22,12 +24,11 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const Map = ({activeOffer, cn}: MapProp):JSX.Element => {
+const Map = ({activeOffer, offers, cn}: MapProp):JSX.Element => {
   const mapRef = useRef(null);
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
   const city = useAppSelector(citySelector);
-  const offers = useAppSelector(offersSelector);
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
