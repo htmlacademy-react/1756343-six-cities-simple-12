@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Options } from '../../const';
-import { useAppSelector } from '../../hooks/useRedux';
-import { citySelector } from '../../store/selectors';
 
 type SortOptionsProp = {
-  handleSorting: (option: string) => void;
+  handleSorting: React.Dispatch<React.SetStateAction<string>>;
+  currentSort: string;
 }
 
-const SortOptions = ({handleSorting}: SortOptionsProp): JSX.Element => {
-  const city = useAppSelector(citySelector);
+const SortOptions = ({handleSorting, currentSort}: SortOptionsProp): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState<string>(Options.Popular);
-
-  useEffect(() => {
-    setCurrentSort(Options.Popular);
-    setIsOpen(false);
-  }, [city]);
-
   const handlerOpenOptions = (): void => {
     setIsOpen(!isOpen);
   };
 
   const handlerSetCurrentSort = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
-    if (e.currentTarget.innerText !== currentSort) {
-      setCurrentSort(e.currentTarget.innerText);
-      handleSorting(e.currentTarget.innerText);
-    }
+    handleSorting(e.currentTarget.innerText);
     setIsOpen(!isOpen);
   };
 

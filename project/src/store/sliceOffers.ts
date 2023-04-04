@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { City, Offers } from '../types/offers';
-import { AppDispatch, OffersData, RootState } from '../types/store';
+import { AppDispatch, initialData, OffersData, RootState } from '../types/store';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -10,14 +10,13 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setOffersDataLoadingStatus(true));
+    dispatch(setOffersData({isLoading: true}));
     const {data} = await api.get<Offers>('/hotels');
-    dispatch(setOffersDataLoadingStatus(false));
-    dispatch(setOffers(data));
+    dispatch(setOffersData({data, isLoading: false}));
   },
 );
 
-const initialState: OffersData = {
+const initialState: initialData = {
   city: {
     name: 'Paris',
     location: {
@@ -26,8 +25,10 @@ const initialState: OffersData = {
       zoom: 13
     }
   },
-  offers: [] as Offers,
-  isOffersLoading: false,
+  offers: {
+    data: [],
+    isLoading: false,
+  },
 };
 
 export const sliceOffers = createSlice({
@@ -37,13 +38,17 @@ export const sliceOffers = createSlice({
     setCurrentCity: (state, { payload }: PayloadAction<City>) => {
       state.city = payload;
     },
-    setOffers: (state, { payload }: PayloadAction<Offers>) => {
-      state.offers = payload;
-    },
-    setOffersDataLoadingStatus: (state, {payload}: PayloadAction<boolean>) => {
-      state.isOffersLoading = payload;
+    setOffersData: (state, { payload }: PayloadAction<OffersData>) => {
+      const {data, isLoading} = payload;
+      if (isLoading) {
+        state.offers.isLoading = isLoading;
+      }
+      if (data) {
+        state.offers.data = data;
+        state.offers.isLoading = isLoading;
+      }
     },
   },
 });
 
-export const { setOffers, setCurrentCity, setOffersDataLoadingStatus } = sliceOffers.actions;
+export const { setOffersData, setCurrentCity } = sliceOffers.actions;

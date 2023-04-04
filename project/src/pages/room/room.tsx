@@ -12,11 +12,11 @@ import { citySelector, offersSelector } from '../../store/selectors';
 
 const Room = (): JSX.Element => {
   const {id} = useParams();
-  const offers = useAppSelector(offersSelector);
+  const {data} = useAppSelector(offersSelector);
   const city = useAppSelector(citySelector);
   const { activeOffer, setActive } = useActiveOffer();
-  const selectOffer = offers.find((offer) => offer.id === Number(id));
-  const nearbyOffer = offers.filter((offer) => offer.id !== Number(id) && offer.city.name === city.name);
+  const selectOffer = data?.find((offer) => offer.id === Number(id));
+  const nearbyOffer = data?.filter((offer) => offer.id !== Number(id) && offer.city.name === city.name);
 
   if (!selectOffer) {
     return <>Not found</>;
@@ -101,12 +101,12 @@ const Room = (): JSX.Element => {
               </section>
             </div>
           </div>
-          <Map activeOffer={activeOffer} offers={nearbyOffer} cn={'property__map'} />
+          {nearbyOffer && <Map activeOffer={activeOffer} offers={nearbyOffer} cn={'property__map'} />}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />
+            {nearbyOffer && <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />}
           </section>
         </div>
       </main>
