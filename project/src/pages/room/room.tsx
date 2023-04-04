@@ -6,15 +6,17 @@ import ReviewForm from '../../components/reviewForm/reviewForm';
 import ReviewsList from '../../components/reviewsList/reviewsList';
 import { RATING_STARS } from '../../const';
 import useActiveOffer from '../../hooks/useActiveOffer';
-import {offersList} from '../../mocks/offers';
+import { useAppSelector } from '../../hooks/useRedux';
 import { reviews } from '../../mocks/reviews';
+import { citySelector, offersSelector } from '../../store/selectors';
 
 const Room = (): JSX.Element => {
   const {id} = useParams();
+  const {data} = useAppSelector(offersSelector);
+  const city = useAppSelector(citySelector);
   const { activeOffer, setActive } = useActiveOffer();
-
-  const selectOffer = offersList.find((offer) => offer.id === Number(id));
-  const nearbyOffer = offersList.filter((offer) => offer.id !== Number(id));
+  const selectOffer = data?.find((offer) => offer.id === Number(id));
+  const nearbyOffer = data?.filter((offer) => offer.id !== Number(id) && offer.city.name === city.name);
 
   if (!selectOffer) {
     return <>Not found</>;
@@ -99,12 +101,12 @@ const Room = (): JSX.Element => {
               </section>
             </div>
           </div>
-          <Map activeOffer={activeOffer} cn={'property__map'} />
+          {nearbyOffer && <Map activeOffer={activeOffer} offers={nearbyOffer} cn={'property__map'} />}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />
+            {nearbyOffer && <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />}
           </section>
         </div>
       </main>

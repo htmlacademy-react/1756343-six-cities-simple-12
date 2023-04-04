@@ -1,8 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 import { City, Offers } from '../types/offers';
-import { OffersData } from '../types/store';
+import { AppDispatch, initialData, OffersData, RootState } from '../types/store';
 
-const initialState: OffersData = {
+export const fetchOffers = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    dispatch(setOffersData({isLoading: true}));
+    const {data} = await api.get<Offers>('/hotels');
+    dispatch(setOffersData({data, isLoading: false}));
+  },
+);
+
+const initialState: initialData = {
   city: {
     name: 'Paris',
     location: {
@@ -11,7 +25,10 @@ const initialState: OffersData = {
       zoom: 13
     }
   },
-  offers: [] as Offers,
+  offers: {
+    data: [],
+    isLoading: false,
+  },
 };
 
 export const sliceOffers = createSlice({
@@ -21,11 +38,17 @@ export const sliceOffers = createSlice({
     setCurrentCity: (state, { payload }: PayloadAction<City>) => {
       state.city = payload;
     },
-
-    setOffers: (state, { payload }: PayloadAction<Offers>) => {
-      state.offers = payload;
+    setOffersData: (state, { payload }: PayloadAction<OffersData>) => {
+      const {data, isLoading} = payload;
+      if (isLoading) {
+        state.offers.isLoading = isLoading;
+      }
+      if (data) {
+        state.offers.data = data;
+        state.offers.isLoading = isLoading;
+      }
     },
   },
 });
 
-export const { setOffers, setCurrentCity } = sliceOffers.actions;
+export const { setOffersData, setCurrentCity } = sliceOffers.actions;
