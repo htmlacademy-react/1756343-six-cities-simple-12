@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { City, Offers } from '../types/offers';
-import { AppDispatch, initialData, OffersData, RootState } from '../types/store';
+import { AppDispatch, OffersInitData, OffersData, RootState } from '../types/store';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -16,7 +16,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
   },
 );
 
-const initialState: initialData = {
+const initialState: OffersInitData = {
   city: {
     name: 'Paris',
     location: {
