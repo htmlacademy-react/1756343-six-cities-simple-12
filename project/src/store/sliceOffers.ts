@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { City, Offers } from '../types/offers';
+import { City, Offer, Offers } from '../types/offers';
 import { AppDispatch, OffersInitData, OffersData, RootState } from '../types/store';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -13,6 +13,30 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
     dispatch(setOffersData({isLoading: true}));
     const {data} = await api.get<Offers>('/hotels');
     dispatch(setOffersData({data, isLoading: false}));
+  },
+);
+
+export const fetchOffer = createAsyncThunk<Offer, string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer>(`/hotels/${_arg}`);
+    return data;
+  },
+);
+
+export const fetchNearbyOffers = createAsyncThunk<Offers, string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'data/nearbyOffers',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offers>(`/hotels/${_arg}/nearby`);
+    return data;
   },
 );
 
@@ -29,6 +53,11 @@ const initialState: OffersInitData = {
     data: [],
     isLoading: false,
   },
+  offer: {
+    data: null,
+    isError: false,
+  },
+  nearbyOffers: [],
 };
 
 export const sliceOffers = createSlice({
@@ -48,7 +77,22 @@ export const sliceOffers = createSlice({
         state.offers.isLoading = isLoading;
       }
     },
+    changeErrorStatus: (state, {payload}: PayloadAction<boolean>) => {
+      state.offer.isError = payload;
+    },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOffer.fulfilled, (state, action) => {
+        state.offer.data = action.payload;
+      })
+      .addCase(fetchOffer.rejected, (state) => {
+        state.offer.isError = true;
+      })
+      .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
+        state.nearbyOffers = action.payload;
+      });
+  }
 });
 
-export const { setOffersData, setCurrentCity } = sliceOffers.actions;
+export const { setOffersData, setCurrentCity, changeErrorStatus } = sliceOffers.actions;
