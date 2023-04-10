@@ -56,6 +56,7 @@ const initialState: OffersInitData = {
   offer: {
     data: null,
     isError: false,
+    isLoading: true,
   },
   nearbyOffers: [],
 };
@@ -85,9 +86,11 @@ export const sliceOffers = createSlice({
     builder
       .addCase(fetchOffer.fulfilled, (state, action) => {
         state.offer.data = action.payload;
+        state.offer.isLoading = false;
       })
       .addCase(fetchOffer.rejected, (state) => {
         state.offer.isError = true;
+        state.offer.isLoading = false;
       })
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;

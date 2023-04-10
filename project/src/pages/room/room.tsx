@@ -8,16 +8,17 @@ import ReviewsList from '../../components/reviewsList/reviewsList';
 import { AppRoutes, RATING_STARS } from '../../const';
 import useActiveOffer from '../../hooks/useActiveOffer';
 import { useAppSelector } from '../../hooks/useRedux';
-import { authSelector, commentsSelector, nearbyOffersSelector, offerSelector } from '../../store/selectors';
-import { fetchComments } from '../../store/sliceComments';
+import { authSelector, nearbyOffersSelector, offerSelector, reviewsSelector } from '../../store/selectors';
+import { fetchReviews } from '../../store/sliceReviews';
 import { changeErrorStatus, fetchNearbyOffers, fetchOffer } from '../../store/sliceOffers';
 import { store } from '../../store/store';
+import Spinner from '../../components/spinner/spinner';
 
 const Room = (): JSX.Element => {
   const {id} = useParams();
-  const { data: selectOffer, isError} = useAppSelector(offerSelector);
+  const { data: selectOffer, isError, isLoading} = useAppSelector(offerSelector);
   const nearbyOffer = useAppSelector(nearbyOffersSelector);
-  const comments = useAppSelector(commentsSelector);
+  const reviews = useAppSelector(reviewsSelector);
   const isAuth = useAppSelector(authSelector);
   const { activeOffer, setActive } = useActiveOffer();
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Room = (): JSX.Element => {
     if (id) {
       store.dispatch(fetchOffer(id));
       store.dispatch(fetchNearbyOffers(id));
-      store.dispatch(fetchComments(id));
+      store.dispatch(fetchReviews(id));
     }
   }, [id]);
 
@@ -39,7 +40,8 @@ const Room = (): JSX.Element => {
     <div className="page">
       <Header />
       <main className="page__main page__main--property">
-        {selectOffer && (
+        {isLoading && <Spinner />}
+        {selectOffer && !isLoading && (
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
@@ -109,9 +111,9 @@ const Room = (): JSX.Element => {
                     <p className="property__text">{selectOffer.description}</p>
                   </div>
                 </div>
-                {comments && (
+                {reviews && (
                   <section className="property__reviews reviews">
-                    <ReviewsList reviews={comments} />
+                    <ReviewsList reviews={reviews} />
                     {isAuth && <ReviewForm />}
                   </section>
                 )}
@@ -119,7 +121,7 @@ const Room = (): JSX.Element => {
             </div>
           </section>
         )}
-        {nearbyOffer && (
+        {nearbyOffer && !isLoading && (
           <>
             <Map activeOffer={activeOffer} offers={nearbyOffer} cn={'property__map'} />
             <div className="container">

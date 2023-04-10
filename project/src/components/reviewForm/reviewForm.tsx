@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RATING_STARS } from '../../const';
-import { sendComment } from '../../store/sliceComments';
+import { sendReview } from '../../store/sliceReviews';
 import { store } from '../../store/store';
 import Star from '../star/star';
 
 const ReviewForm = (): JSX.Element => {
   const {id} = useParams();
-  const [review, setReview] = useState({
+  const [formState, setFormState] = useState({
     rating: 0,
     review: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const {value, name} = e.target;
-    if (review[name as keyof typeof review] !== value) {
-      setReview({
-        ...review,
+    if (formState[name as keyof typeof formState] !== value) {
+      setFormState({
+        ...formState,
         [name]: value,
       });
     }
@@ -25,13 +25,13 @@ const ReviewForm = (): JSX.Element => {
   const handleSubmitComment = (e:React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (id) {
-      store.dispatch(sendComment({
-        comment: review.review,
-        rating: review.rating,
+      store.dispatch(sendReview({
+        review: formState.review,
+        rating: formState.rating,
         hotelId: id,
       }));
 
-      setReview({
+      setFormState({
         rating: 0,
         review: '',
       });
@@ -53,7 +53,7 @@ const ReviewForm = (): JSX.Element => {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={review.review}
+        value={formState.review}
         onChange={(e) => handleChange(e)}
       >
       </textarea>
@@ -61,7 +61,7 @@ const ReviewForm = (): JSX.Element => {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!review.review.length}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!formState.review.length || !id}>Submit</button>
       </div>
     </form>
   );

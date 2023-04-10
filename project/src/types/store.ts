@@ -11,6 +11,7 @@ export type OffersData = {
 export type OfferData = {
   data: Offer | null;
   isError: boolean;
+  isLoading: boolean;
 }
 
 export type OffersInitData = {
@@ -25,8 +26,8 @@ export type AuthInitData = {
   user: User;
 }
 
-export type CommentsInitData = {
-  comments: Reviews;
+export type ReviewsInitData = {
+  reviews: Reviews;
 }
 
 export type RootState = ReturnType<typeof store.getState>;

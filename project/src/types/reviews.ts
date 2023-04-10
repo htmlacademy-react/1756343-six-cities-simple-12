@@ -1,7 +1,7 @@
 import { User } from './user';
 
-export type NewComment = {
-  comment: string;
+export type NewReview = {
+  review: string;
   rating: number;
   hotelId: string;
 }
