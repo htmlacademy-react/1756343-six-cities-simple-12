@@ -1,7 +1,7 @@
 export const AppRoutes = {
   Main: '/',
   Login: '/login',
-  Room: 'offer/:id',
+  Room: '/offer/:id',
   404: '*',
 } as const;
 
