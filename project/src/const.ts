@@ -2,7 +2,7 @@ export const AppRoutes = {
   Main: '/',
   Login: '/login',
   Room: '/offer/:id',
-  404: '*',
+  NotFound: '*',
 } as const;
 
 export const RATING_STARS = 5;

@@ -38,7 +38,7 @@ const ReviewForm = (): JSX.Element => {
   };
 
   if (!id) {
-    navigate(AppRoutes[404]);
+    navigate(AppRoutes.NotFound);
   }
 
   return (
