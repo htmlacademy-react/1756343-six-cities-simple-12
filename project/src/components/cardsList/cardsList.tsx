@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { Offer, Offers } from '../../types/offers';
 import Card from '../card/card';
 
@@ -11,12 +11,12 @@ type CardsListProp = {
 const CardsList = ({offers, onHover, cn}: CardsListProp): JSX.Element => {
   const [activeCard, setActivaCard] = useState<null|Offer>(null);
 
-  const handleActiveCard = (offer: Offer): void => {
+  const handleActiveCard = useCallback((offer: Offer): void => {
     if (!activeCard || offer.id !== activeCard.id) {
       setActivaCard(offer);
       onHover(offer.id);
     }
-  };
+  }, [onHover, activeCard]);
 
   return (
     <div className={cn}>
@@ -25,4 +25,4 @@ const CardsList = ({offers, onHover, cn}: CardsListProp): JSX.Element => {
   );
 };
 
-export default CardsList;
+export default memo(CardsList);

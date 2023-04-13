@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { RATING_STARS } from '../../const';
 import { Offer } from '../../types/offers';
@@ -23,9 +22,9 @@ const Card = ({offer, handleActiveCard}: CardProp): JSX.Element => {
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -49,4 +48,4 @@ const Card = ({offer, handleActiveCard}: CardProp): JSX.Element => {
   );
 };
 
-export default Card;
+export default memo(Card);

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Options } from '../../const';
 
 type SortOptionsProp = {
-  handleSorting: React.Dispatch<React.SetStateAction<string>>;
+  handleSorting: (value: string) => void;
   currentSort: string;
 }
 
@@ -41,4 +41,4 @@ const SortOptions = ({handleSorting, currentSort}: SortOptionsProp): JSX.Element
   );
 };
 
-export default SortOptions;
+export default memo(SortOptions);

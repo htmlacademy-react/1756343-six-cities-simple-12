@@ -13,7 +13,7 @@ const App = (): JSX.Element => (
         <Route path={AppRoutes.Login} element={<Login />} />
         <Route path={AppRoutes.Room} element={<Room />} />
       </Route>
-      <Route path={AppRoutes[404]} element={<Page404 />} />
+      <Route path={AppRoutes.NotFound} element={<Page404 />} />
     </Routes>
   </BrowserRouter>
 );

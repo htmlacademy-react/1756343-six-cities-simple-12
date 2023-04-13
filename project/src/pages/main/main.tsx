@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import CardsList from '../../components/cardsList/cardsList';
 import CitiesList from '../../components/citiesList/citiesList';
 import Header from '../../components/header/header';
@@ -27,26 +27,24 @@ const Main = (): JSX.Element => {
     }
   }, [city, data, currentSort]);
 
-  const handleChangeCity = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>):void => {
+  const handleChangeCity = useCallback((e: React.MouseEvent<HTMLAnchorElement, MouseEvent>):void => {
     e.preventDefault();
     const selectedCity = CITIES.find((c) => c.name === e.currentTarget.innerText);
     if (selectedCity) {
       dispatch(setCurrentCity(selectedCity));
     }
+  }, [dispatch]);
+
+  const handleSorting = (value: string): void => {
+    setCurrentSort(value);
   };
 
   return (
     <>
       <Header />
       <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <CitiesList cities={CITIES} activeCity={city.name} handleChangeCity={handleChangeCity} />
-          </section>
-        </div>
+        <CitiesList cities={CITIES} activeCity={city.name} handleChangeCity={handleChangeCity} />
         <div className="cities">
-
           <div className="cities__places-container container">
             {isLoading && <Spinner />}
             {!isLoading && preparedOffers && (
@@ -54,7 +52,7 @@ const Main = (): JSX.Element => {
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{preparedOffers.length} places to stay in {city.name}</b>
-                  <SortOptions handleSorting={setCurrentSort} currentSort={currentSort} />
+                  <SortOptions handleSorting={handleSorting} currentSort={currentSort} />
                   <CardsList offers={preparedOffers} onHover={setActive} cn={'cities__places-list places__list tabs__content'} />
                 </section>
                 <div className="cities__right-section">

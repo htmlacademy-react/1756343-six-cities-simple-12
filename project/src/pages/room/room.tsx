@@ -33,7 +33,7 @@ const Room = (): JSX.Element => {
 
   if (isError) {
     store.dispatch(changeErrorStatus(false));
-    navigate(AppRoutes[404]);
+    navigate(AppRoutes.NotFound);
   }
 
   return (

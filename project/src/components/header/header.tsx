@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
@@ -52,4 +53,4 @@ const Header = (): JSX.Element => {
   );
 };
 
-export default Header;
+export default memo(Header);
