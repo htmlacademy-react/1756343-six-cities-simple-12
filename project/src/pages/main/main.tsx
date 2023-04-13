@@ -35,9 +35,9 @@ const Main = (): JSX.Element => {
     }
   }, [dispatch]);
 
-  const handleSorting = useCallback((value: string): void => {
+  const handleSorting = (value: string): void => {
     setCurrentSort(value);
-  }, []);
+  };
 
   return (
     <>

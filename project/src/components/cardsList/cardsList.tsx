@@ -25,6 +25,4 @@ const CardsList = ({offers, onHover, cn}: CardsListProp): JSX.Element => {
   );
 };
 
-export default memo(CardsList, (prevProps, nextProps) => (
-  prevProps.offers === nextProps.offers && prevProps.cn === nextProps.cn
-));
+export default memo(CardsList);
