@@ -4,8 +4,9 @@ import { Reviews } from './reviews';
 import { User } from './user';
 
 export type OffersData = {
-  data?: Offers;
-  isLoading?: boolean;
+  data: Offers;
+  isError: boolean;
+  isLoading: boolean;
 };
 
 export type OfferData = {

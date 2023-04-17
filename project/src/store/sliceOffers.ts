@@ -1,18 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { City, Offer, Offers } from '../types/offers';
-import { AppDispatch, OffersInitData, OffersData, RootState } from '../types/store';
+import { AppDispatch, OffersInitData, RootState } from '../types/store';
 
-export const fetchOffers = createAsyncThunk<void, undefined, {
+export const fetchOffers = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setOffersData({isLoading: true}));
     const {data} = await api.get<Offers>('/hotels');
-    dispatch(setOffersData({data, isLoading: false}));
+    return data;
   },
 );
 
@@ -51,6 +50,7 @@ const initialState: OffersInitData = {
   },
   offers: {
     data: [],
+    isError: false,
     isLoading: false,
   },
   offer: {
@@ -68,22 +68,23 @@ export const sliceOffers = createSlice({
     setCurrentCity: (state, { payload }: PayloadAction<City>) => {
       state.city = payload;
     },
-    setOffersData: (state, { payload }: PayloadAction<OffersData>) => {
-      const {data, isLoading} = payload;
-      if (isLoading) {
-        state.offers.isLoading = isLoading;
-      }
-      if (data) {
-        state.offers.data = data;
-        state.offers.isLoading = isLoading;
-      }
-    },
     changeErrorStatus: (state, {payload}: PayloadAction<boolean>) => {
       state.offer.isError = payload;
     },
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchOffers.fulfilled, (state, action) => {
+        state.offers.data = action.payload;
+        state.offers.isLoading = false;
+      })
+      .addCase(fetchOffers.pending, (state) => {
+        state.offers.isLoading = true;
+      })
+      .addCase(fetchOffers.rejected, (state) => {
+        state.offers.isError = true;
+        state.offers.isLoading = false;
+      })
       .addCase(fetchOffer.fulfilled, (state, action) => {
         state.offer.data = action.payload;
         state.offer.isLoading = false;
@@ -98,4 +99,4 @@ export const sliceOffers = createSlice({
   }
 });
 
-export const { setOffersData, setCurrentCity, changeErrorStatus } = sliceOffers.actions;
+export const { setCurrentCity, changeErrorStatus } = sliceOffers.actions;
