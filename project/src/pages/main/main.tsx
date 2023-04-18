@@ -4,6 +4,7 @@ import CitiesList from '../../components/citiesList/citiesList';
 import Header from '../../components/header/header';
 import MainEmpty from '../../components/mainEmpty/mainEmpty';
 import Map from '../../components/map/map';
+import ServerError from '../../components/serverError/serverError';
 import SortOptions from '../../components/sortOptions/sortOptions';
 import Spinner from '../../components/spinner/spinner';
 import { CITIES, Options } from '../../const';
@@ -46,10 +47,11 @@ const Main = (): JSX.Element => {
       <main className="page__main page__main--index">
         <CitiesList cities={CITIES} activeCity={city.name} handleChangeCity={handleChangeCity} />
         <div className="cities">
-          {isError ? <MainEmpty /> :
+          {isError && <ServerError />}
+          {!isLoading && !data.length && !isError ? <MainEmpty /> :
             <div className="cities__places-container container">
               {isLoading && <Spinner />}
-              {!isLoading && preparedOffers && (
+              {!isLoading && preparedOffers && !isError && (
                 <>
                   <section className="cities__places places">
                     <h2 className="visually-hidden">Places</h2>

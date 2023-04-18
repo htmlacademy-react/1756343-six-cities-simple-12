@@ -14,6 +14,7 @@ const MainEmpty = () => {
       </section>
       <div className="cities__right-section"></div>
     </div>
-  );};
+  );
+};
 
 export default MainEmpty;
