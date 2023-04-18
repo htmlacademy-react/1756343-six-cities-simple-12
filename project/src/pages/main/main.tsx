@@ -2,7 +2,9 @@ import { useCallback, useMemo, useState } from 'react';
 import CardsList from '../../components/cardsList/cardsList';
 import CitiesList from '../../components/citiesList/citiesList';
 import Header from '../../components/header/header';
+import MainEmpty from '../../components/mainEmpty/mainEmpty';
 import Map from '../../components/map/map';
+import ServerError from '../../components/serverError/serverError';
 import SortOptions from '../../components/sortOptions/sortOptions';
 import Spinner from '../../components/spinner/spinner';
 import { CITIES, Options } from '../../const';
@@ -15,7 +17,7 @@ import { setCurrentCity } from '../../store/sliceOffers';
 const Main = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const city = useAppSelector(citySelector);
-  const {data, isLoading} = useAppSelector(offersSelector);
+  const {data, isLoading, isError} = useAppSelector(offersSelector);
   const { activeOffer, setActive } = useActiveOffer();
   const [currentSort, setCurrentSort] = useState<string>(Options.Popular);
 
@@ -45,22 +47,24 @@ const Main = (): JSX.Element => {
       <main className="page__main page__main--index">
         <CitiesList cities={CITIES} activeCity={city.name} handleChangeCity={handleChangeCity} />
         <div className="cities">
-          <div className="cities__places-container container">
-            {isLoading && <Spinner />}
-            {!isLoading && preparedOffers && (
-              <>
-                <section className="cities__places places">
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{preparedOffers.length} places to stay in {city.name}</b>
-                  <SortOptions handleSorting={handleSorting} currentSort={currentSort} />
-                  <CardsList offers={preparedOffers} onHover={setActive} cn={'cities__places-list places__list tabs__content'} />
-                </section>
-                <div className="cities__right-section">
-                  <Map activeOffer={activeOffer} offers={preparedOffers} cn={'cities__map'} />
-                </div>
-              </>
-            )}
-          </div>
+          {isError && <ServerError />}
+          {!isLoading && !data.length && !isError ? <MainEmpty /> :
+            <div className="cities__places-container container">
+              {isLoading && <Spinner />}
+              {!isLoading && preparedOffers && !isError && (
+                <>
+                  <section className="cities__places places">
+                    <h2 className="visually-hidden">Places</h2>
+                    <b className="places__found">{preparedOffers.length} places to stay in {city.name}</b>
+                    <SortOptions handleSorting={handleSorting} currentSort={currentSort} />
+                    <CardsList offers={preparedOffers} onHover={setActive} cn={'cities__places-list places__list tabs__content'} />
+                  </section>
+                  <div className="cities__right-section">
+                    <Map activeOffer={activeOffer} offers={preparedOffers} cn={'cities__map'} />
+                  </div>
+                </>
+              )}
+            </div>}
         </div>
       </main>
     </>
