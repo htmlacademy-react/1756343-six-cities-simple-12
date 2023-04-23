@@ -21,8 +21,8 @@ export const sendReview = createAsyncThunk<Reviews, NewReview, {
   extra: AxiosInstance;
 }>(
   'comments/sendReview',
-  async ({review, rating, hotelId}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Reviews>(`/comments/${hotelId}`, {review, rating});
+  async ({comment, rating, hotelId}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Reviews>(`/comments/${hotelId}`, {comment, rating});
     return data;
   },
 );

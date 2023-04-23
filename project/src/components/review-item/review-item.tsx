@@ -1,5 +1,5 @@
 import { RATING_STARS } from '../../const';
-import { formatDate, getFullMonthAndYear } from '../../helpers/formatDate';
+import { formatDate, getFullMonthAndYear } from '../../helpers/format-date';
 import { Review } from '../../types/reviews';
 
 type ReviewProp = {

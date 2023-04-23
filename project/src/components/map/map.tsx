@@ -1,15 +1,15 @@
-import leaflet from 'leaflet';
+import leaflet, { FeatureGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
 import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppSelector } from '../../hooks/use-redux';
 import { citySelector } from '../../store/selectors';
 import { Offers } from '../../types/offers';
 
 type MapProp = {
   activeOffer: number | null;
   cn: string;
-  offers: Offers;
+  offers: Offers | null;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -29,6 +29,7 @@ const Map = ({activeOffer, offers, cn}: MapProp):JSX.Element => {
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
   const city = useAppSelector(citySelector);
+  const [markersGroup] = useState<FeatureGroup>(new FeatureGroup());
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
@@ -57,21 +58,20 @@ const Map = ({activeOffer, offers, cn}: MapProp):JSX.Element => {
   }, [mapRef, offers, city, map]);
 
   useEffect(() => {
-    if (map) {
+    if (map && offers) {
+      markersGroup.clearLayers();
       offers.forEach((offer) => {
-        leaflet
-          .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
-          }, {
-            icon: (activeOffer && offer.id === activeOffer)
-              ? currentCustomIcon
-              : defaultCustomIcon,
-          })
-          .addTo(map);
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
+        });
+
+        marker.setIcon(activeOffer && offer.id === activeOffer ? currentCustomIcon : defaultCustomIcon);
+        markersGroup.addLayer(marker);
       });
+      markersGroup.addTo(map);
     }
-  }, [map, offers, activeOffer]);
+  }, [map, offers, activeOffer, markersGroup]);
 
   return (
     <section className={`${cn} map`}

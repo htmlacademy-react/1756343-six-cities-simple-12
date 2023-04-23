@@ -2,9 +2,9 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AppRoutes } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-redux';
 import { authSelector } from '../../store/selectors';
-import { login } from '../../store/sliceAuth';
+import { login } from '../../store/slice-auth';
 
 const Login = (): JSX.Element => {
   const emailRef = useRef<HTMLInputElement | null>(null);
