@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import CardsList from '../../components/cardsList/cardsList';
+import CardsList from '../../components/cards-list/cards-list';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
-import ReviewForm from '../../components/reviewForm/reviewForm';
-import ReviewsList from '../../components/reviewsList/reviewsList';
-import { AppRoutes, RATING_STARS } from '../../const';
-import useActiveOffer from '../../hooks/useActiveOffer';
-import { useAppSelector } from '../../hooks/useRedux';
+import ReviewForm from '../../components/review-form/review-form';
+import ReviewsList from '../../components/reviews-list/reviews-list';
+import { AppRoutes, HOUSING_TYPE, NUMBER_OF_IMAGES, RATING_STARS } from '../../const';
+import { useAppSelector } from '../../hooks/use-redux';
 import { authSelector, nearbyOffersSelector, offerSelector, reviewsSelector } from '../../store/selectors';
-import { fetchReviews } from '../../store/sliceReviews';
-import { changeErrorStatus, fetchNearbyOffers, fetchOffer } from '../../store/sliceOffers';
+import { fetchReviews } from '../../store/slice-reviews';
+import { changeErrorStatus, fetchNearbyOffers, fetchOffer } from '../../store/slice-offers';
 import { store } from '../../store/store';
 import Spinner from '../../components/spinner/spinner';
 
@@ -20,7 +19,6 @@ const Room = (): JSX.Element => {
   const nearbyOffer = useAppSelector(nearbyOffersSelector);
   const reviews = useAppSelector(reviewsSelector);
   const isAuth = useAppSelector(authSelector);
-  const { activeOffer, setActive } = useActiveOffer();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,11 +43,12 @@ const Room = (): JSX.Element => {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {selectOffer.images.map((image) => (
-                  <div className="property__image-wrapper" key={image}>
-                    <img className="property__image" src={image} alt="Studio" />
-                  </div>
-                ))}
+                {selectOffer.images.map((image, i) => (
+                  i <= NUMBER_OF_IMAGES ? (
+                    <div className="property__image-wrapper" key={image}>
+                      <img className="property__image" src={image} alt="Studio" />
+                    </div>
+                  ) : null))}
               </div>
             </div>
             <div className="property__container container">
@@ -71,10 +70,10 @@ const Room = (): JSX.Element => {
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {selectOffer.type}
+                    {HOUSING_TYPE[selectOffer.type as keyof typeof HOUSING_TYPE]}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {selectOffer.bedrooms}
+                    {selectOffer.bedrooms} {selectOffer.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
                   </li>
                   <li className="property__feature property__feature--adults">
                 Max {selectOffer.maxAdults} adults
@@ -121,13 +120,13 @@ const Room = (): JSX.Element => {
             </div>
           </section>
         )}
-        {nearbyOffer && !isLoading && (
+        {nearbyOffer && !isLoading && selectOffer && (
           <>
-            <Map activeOffer={activeOffer} offers={nearbyOffer} cn={'property__map'} />
+            <Map activeOffer={selectOffer.id} offers={[...nearbyOffer, selectOffer]} cn={'property__map'} />
             <div className="container">
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
-                {nearbyOffer && <CardsList offers={nearbyOffer} onHover={setActive} cn={'near-places__list places__list'} />}
+                {nearbyOffer && <CardsList offers={nearbyOffer} cn={'near-places__list places__list'} />}
               </section>
             </div>
           </>

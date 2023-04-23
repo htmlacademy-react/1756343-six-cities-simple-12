@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppRoutes, RATING_STARS } from '../../const';
-import { sendReview } from '../../store/sliceReviews';
+import { AppRoutes, RATING_STARS, REVIEW_LENGTH } from '../../const';
+import { sendReview } from '../../store/slice-reviews';
 import { store } from '../../store/store';
 import Star from '../star/star';
 
@@ -26,8 +26,8 @@ const ReviewForm = (): JSX.Element => {
   const handleSubmitComment = (e:React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     store.dispatch(sendReview({
-      review: formState.review,
-      rating: formState.rating,
+      comment: formState.review,
+      rating: formState.rating || 1,
       hotelId: id,
     }));
 
@@ -62,9 +62,9 @@ const ReviewForm = (): JSX.Element => {
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{REVIEW_LENGTH} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!formState.review.length}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={formState.review.length < REVIEW_LENGTH}>Submit</button>
       </div>
     </form>
   );

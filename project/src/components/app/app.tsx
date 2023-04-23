@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
-import Page404 from '../../pages/page404/page404';
+import Page404 from '../../pages/page-404/page-404';
 import { AppRoutes } from '../../const';
 
 const App = (): JSX.Element => (

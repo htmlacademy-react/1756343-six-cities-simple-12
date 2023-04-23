@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { checkAuth } from './store/sliceAuth';
-import { fetchOffers } from './store/sliceOffers';
+import { checkAuth } from './store/slice-auth';
+import { fetchOffers } from './store/slice-offers';
 import { store } from './store/store';
 
 const root = ReactDOM.createRoot(

@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppSelector } from '../../hooks/use-redux';
 import { citySelector } from '../../store/selectors';
 
 const MainEmpty = () => {

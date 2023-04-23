@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-redux';
 import { authSelector, userSelector } from '../../store/selectors';
-import { logout } from '../../store/sliceAuth';
+import { logout } from '../../store/slice-auth';
 
 const Header = (): JSX.Element => {
   const authorizationStatus = useAppSelector(authSelector);

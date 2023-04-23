@@ -70,3 +70,14 @@ export enum Options {
   PriceDesc = 'Price: high to low',
   TopRating = 'Top rated first',
 }
+
+export const NUMBER_OF_IMAGES = 5;
+
+export const REVIEW_LENGTH = 50;
+
+export const HOUSING_TYPE = {
+  apartment: 'Apartment',
+  room: 'Private Room',
+  house: 'House',
+  hotel: 'Hotel',
+};

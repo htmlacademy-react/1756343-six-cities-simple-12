@@ -1,18 +1,18 @@
 import { useCallback, useMemo, useState } from 'react';
-import CardsList from '../../components/cardsList/cardsList';
-import CitiesList from '../../components/citiesList/citiesList';
+import CardsList from '../../components/cards-list/cards-list';
+import CitiesList from '../../components/cities-list/cities-list';
 import Header from '../../components/header/header';
-import MainEmpty from '../../components/mainEmpty/mainEmpty';
+import MainEmpty from '../../components/main-empty/main-empty';
 import Map from '../../components/map/map';
-import ServerError from '../../components/serverError/serverError';
-import SortOptions from '../../components/sortOptions/sortOptions';
+import ServerError from '../../components/server-error/server-error';
+import SortOptions from '../../components/sort-options/sort-options';
 import Spinner from '../../components/spinner/spinner';
 import { CITIES, Options } from '../../const';
 import { sort } from '../../helpers/sort';
-import useActiveOffer from '../../hooks/useActiveOffer';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import useActiveOffer from '../../hooks/use-active-offer';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-redux';
 import { citySelector, offersSelector } from '../../store/selectors';
-import { setCurrentCity } from '../../store/sliceOffers';
+import { setCurrentCity } from '../../store/slice-offers';
 
 const Main = (): JSX.Element => {
   const dispatch = useAppDispatch();
